@@ -89,8 +89,8 @@ const Portfolio = ({ scrollToSection }) => {
                   <div className="order-1 md:order-2 flex justify-center" data-animate>
                       <div className="relative w-80 h-80 sm:w-96 sm:h-96 lg:w-[450px] lg:h-[450px] flex-shrink-0">
                            <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700 rounded-full transform rotate-3 transition-transform duration-300 hover:rotate-0"></div>
-                          <img 
-                            src="../src/images/33.png" 
+                          <img
+                            src="/33.png"
                             alt="Kaveen Nimsara"
                             className="relative w-full h-full object-cover object-top rounded-full shadow-2xl border-8 border-white dark:border-gray-800"
                             onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/600x600/EFEFEF/2B2B2B?text=Kaveen'; }}
@@ -117,7 +117,7 @@ const Portfolio = ({ scrollToSection }) => {
                         >
                           View My Skills <ArrowRight size={18} />
                         </button>
-                        <a href="../src/files/cv.pdf" download className="border-2 border-[#D4D4D4] dark:border-white text-gray-700 dark:text-white px-8 py-3 rounded-full font-medium hover:border-[#2B2B2B] hover:text-[#2B2B2B] dark:hover:border-[#2B2B2B] dark:hover:text-white transition-all duration-300 flex items-center gap-2 w-full sm:w-auto justify-center">
+                        <a href="/cv.pdf" download className="border-2 border-[#D4D4D4] dark:border-white text-gray-700 dark:text-white px-8 py-3 rounded-full font-medium hover:border-[#2B2B2B] hover:text-[#2B2B2B] dark:hover:border-[#2B2B2B] dark:hover:text-white transition-all duration-300 flex items-center gap-2 w-full sm:w-auto justify-center">
                           <Download size={18} />
                            Download Resume
                         </a>

@@ -1,7 +1,55 @@
-import React from 'react';
-import { Mail, Phone, MapPin, User, MessageSquare } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, Phone, MapPin, User, MessageSquare, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // null, 'success', 'error'
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      // EmailJS configuration - you'll need to set these up in EmailJS dashboard
+      const serviceId = 'service_wz02u4s'; // Replace with your EmailJS service ID
+      const templateId = 'template_cp334dz'; // Replace with your EmailJS template ID
+      const publicKey = 'DZPbqBwHaPj-FT2nd'; // Replace with your EmailJS public key
+
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        to_email: 'kaveennimsara01@gmail.com', // Your receiving email
+        message: formData.message,
+        reply_to: formData.email
+      };
+
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      console.error('Email send failed:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
 <section id="contact" className="py-20 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,52 +98,88 @@ const Contact = () => {
             </div>
             
             <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md" data-animate style={{ animationDelay: '400ms' }}>
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name</label>
                   <div className="relative">
                     <User size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
-                    <input 
+                    <input
                       type="text"
                       id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
                       className="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-700 border-2 border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B2B2B] focus:bg-white dark:focus:bg-gray-600 transition-all duration-300"
                       placeholder="Your name"
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
                    <div className="relative">
                     <Mail size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
-                    <input 
+                    <input
                       type="email"
                       id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
                       className="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-700 border-2 border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B2B2B] focus:bg-white dark:focus:bg-gray-600 transition-all duration-300"
                       placeholder="your.email@example.com"
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Message</label>
                    <div className="relative">
                     <MessageSquare size={18} className="absolute left-3 top-4 text-gray-400 dark:text-gray-500" />
-                    <textarea 
+                    <textarea
                       id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
                       rows={4}
+                      required
                       className="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-700 border-2 border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B2B2B] focus:bg-white dark:focus:bg-gray-600 transition-all duration-300"
                       placeholder="Tell me about your project..."
                     ></textarea>
                   </div>
                 </div>
-                
-                <button 
+
+                {submitStatus === 'success' && (
+                  <div className="flex items-center gap-2 text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+                    <CheckCircle size={20} />
+                    <span>Message sent successfully! I'll get back to you soon.</span>
+                  </div>
+                )}
+
+                {submitStatus === 'error' && (
+                  <div className="flex items-center gap-2 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
+                    <AlertCircle size={20} />
+                    <span>Failed to send message. Please try again or contact me directly.</span>
+                  </div>
+                )}
+
+                <button
                   type="submit"
-                  onClick={(e) => { e.preventDefault(); alert('Message sent! (This is a demo)'); }}
-                  className="w-full bg-[#2B2B2B] dark:bg-white dark:text-[#2B2B2B] text-white py-3 rounded-lg font-medium hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+                  disabled={isSubmitting}
+                  className="w-full bg-[#2B2B2B] dark:bg-white dark:text-[#2B2B2B] text-white py-3 rounded-lg font-medium hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
                 >
-                  Send Message
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send size={18} />
+                      Send Message
+                    </>
+                  )}
                 </button>
               </form>
             </div>

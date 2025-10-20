@@ -25,10 +25,10 @@ const Contact = () => {
     setSubmitStatus(null);
 
     try {
-      // EmailJS configuration - you'll need to set these up in EmailJS dashboard
-      const serviceId = 'service_wz02u4s'; // Replace with your EmailJS service ID
-      const templateId = 'template_cp334dz'; // Replace with your EmailJS template ID
-      const publicKey = 'DZPbqBwHaPj-FT2nd'; // Replace with your EmailJS public key
+      // EmailJS configuration from environment variables
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
       const templateParams = {
         from_name: formData.name,

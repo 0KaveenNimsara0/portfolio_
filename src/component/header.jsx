@@ -185,13 +185,13 @@ const Header = ({ navigation, scrollToSection, activeSection }) => {
               <div className="flex items-center gap-3">
                 {/* UPDATED: Mobile Menu Logo */}
                 <img 
-                  src="https://placehold.co/150x50/000000/FFFFFF?text=KAVEEN&font=inter" 
+                  src="logo10.png" 
                   alt="Kaveen Nimsara Logo Light" 
                   className={`h-10 w-auto object-contain ${theme === 'dark' ? 'hidden' : 'block'}`}
                   onError={(e) => e.currentTarget.src = 'https://placehold.co/150x50/000000/FFFFFF?text=KAVEEN&font=inter'}
                 />
                 <img 
-                  src="https://placehold.co/150x50/FFFFFF/000000?text=KAVEEN&font=inter" 
+                  src="logo11.png" 
                   alt="Kaveen Nimsara Logo Dark" 
                   className={`h-10 w-auto object-contain ${theme === 'dark' ? 'block' : 'hidden'}`}
                   onError={(e) => e.currentTarget.src = 'https://placehold.co/150x50/FFFFFF/000000?text=KAVEEN&font=inter'}

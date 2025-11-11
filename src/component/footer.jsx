@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Github, Linkedin, Mail } from 'lucide-react';
+import { ThemeContext } from '../context/ThemeContext';
+import logoLight from 'logo113.png';
+import logoDark from 'logo112.png';
 
 const Footer = () => {
+  const { theme } = useContext(ThemeContext);
+  const logoSrc = theme === 'dark' ? logoDark : logoLight;
+
   return (
     <footer className="bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
-        
+
         <div className="flex flex-col items-center text-center gap-8">
-          
+
           {/* Brand Info */}
           <div className="flex flex-col items-center gap-4">
-            <img 
-              src="logo12.png" 
-              alt="Kaveen Nimsara Logo" 
+            <img
+              src={logoSrc}
+              alt="Kaveen Nimsara Logo"
               className="w-16 h-16 object-contain"
             />
             <h3 className="text-3xl font-bold gradient-text">

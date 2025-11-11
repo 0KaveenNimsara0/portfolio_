@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-// import { ThemeContext } from '../context/ThemeContext'; // Assuming this path is correct
+import { ThemeContext } from '../context/ThemeContext';
 
 const Header = ({ navigation, scrollToSection, activeSection }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,19 +10,7 @@ const Header = ({ navigation, scrollToSection, activeSection }) => {
   
   const navigate = useNavigate();
   const location = useLocation();
-  // const { theme, setTheme } = useContext(ThemeContext);
-  
-  // Use local state for theme as context is not available
-  const [theme, setTheme] = useState(() => {
-    // Check for saved theme in local storage or default to 'light'
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const savedTheme = window.localStorage.getItem('theme');
-      if (savedTheme) {
-        return savedTheme;
-      }
-    }
-    return 'light';
-  });
+  const { theme, setTheme } = useContext(ThemeContext);
 
   // Handle header shadow on scroll
   useEffect(() => {
@@ -84,17 +72,11 @@ const Header = ({ navigation, scrollToSection, activeSection }) => {
             className="flex-shrink-0 flex items-center gap-3 cursor-pointer"
           >
             {/* UPDATED: Swapped div for img tag with light/dark mode support */}
-            <img 
-              src="logo10.png" 
-              alt="Kaveen Nimsara Logo Light" 
-              className={`h-10 w-auto object-contain ${theme === 'dark' ? 'hidden' : 'block'}`}
+            <img
+              src={theme === 'dark' ? 'logo112.png' : 'logo113.png'}
+              alt="Kaveen Nimsara Logo"
+              className="h-10 w-auto object-contain"
               onError={(e) => e.currentTarget.src = 'https://placehold.co/150x50/000000/FFFFFF?text=KAVEEN&font=inter'}
-            />
-            <img 
-              src="logo11.png" 
-              alt="Kaveen Nimsara Logo Dark" 
-              className={`h-10 w-auto object-contain ${theme === 'dark' ? 'block' : 'hidden'}`}
-              onError={(e) => e.currentTarget.src = 'https://placehold.co/150x50/FFFFFF/000000?text=KAVEEN&font=inter'}
             />
             <div className="hidden sm:block">
               <span className="text-xl font-bold text-gray-900 dark:text-white">

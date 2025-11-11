@@ -16,12 +16,12 @@ const Skills = () => {
     { 
       name: 'Backend Development', 
       icon: <Database size={28} className="text-[#2B2B2B]" />,
-      skills: ['Node.js', 'Express', 'Python', 'FastAPI', 'REST APIs', 'GraphQL']
+      skills: ['Node.js', 'Express', 'Python', 'FastAPI', 'REST APIs']
     },
     { 
       name: 'Database & DevOps', 
       icon: <Server size={28} className="text-[#2B2B2B]" />,
-      skills: ['MongoDB', 'PostgreSQL', 'Docker', 'CI/CD', 'Git & GitHub', 'Vercel']
+      skills: ['MongoDB', 'PostgreSQL', 'Docker', 'CI/CD', 'Git & GitHub']
     }
   ];
 

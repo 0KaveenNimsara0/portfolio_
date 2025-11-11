@@ -1,13 +1,48 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ThemeContext } from '../context/ThemeContext.jsx';
+// import { ThemeContext } from '../context/ThemeContext'; // Assuming this path is correct
 
 const Header = ({ navigation, scrollToSection, activeSection }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // Add a state to track scroll position for header shadow
+  const [scrolled, setScrolled] = useState(false);
+  
   const navigate = useNavigate();
   const location = useLocation();
-  const { theme, setTheme } = useContext(ThemeContext);
+  // const { theme, setTheme } = useContext(ThemeContext);
+  
+  // Use local state for theme as context is not available
+  const [theme, setTheme] = useState(() => {
+    // Check for saved theme in local storage or default to 'light'
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const savedTheme = window.localStorage.getItem('theme');
+      if (savedTheme) {
+        return savedTheme;
+      }
+    }
+    return 'light';
+  });
+
+  // Handle header shadow on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Effect to apply theme to a parent element (like <html>)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const root = window.document.documentElement;
+      root.classList.remove(theme === 'dark' ? 'light' : 'dark');
+      root.classList.add(theme);
+      // Save theme to local storage
+      window.localStorage.setItem('theme', theme);
+    }
+  }, [theme]);
 
   const handleNavClick = (item) => {
     if (item.path) {
@@ -40,70 +75,82 @@ const Header = ({ navigation, scrollToSection, activeSection }) => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 
+      ${scrolled ? 'bg-white/80 dark:bg-gray-950/80 backdrop-blur-lg shadow-md' : 'bg-transparent'}
+      border-b ${scrolled ? 'border-gray-200 dark:border-gray-800' : 'border-transparent'}`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
+          {/* UPDATED: Logo with accent color */}
           <div 
             onClick={() => handleNavClick({ path: '/' })}
             className="flex-shrink-0 flex items-center gap-3 cursor-pointer"
           >
-            <div className="w-10 h-10 bg-black dark:bg-white rounded-lg flex items-center justify-center font-bold text-white dark:text-black text-base">
-              KN
-            </div>
+            {/* UPDATED: Swapped div for img tag with light/dark mode support */}
+            <img 
+              src="logo10.png" 
+              alt="Kaveen Nimsara Logo Light" 
+              className={`h-10 w-auto object-contain ${theme === 'dark' ? 'hidden' : 'block'}`}
+              onError={(e) => e.currentTarget.src = 'https://placehold.co/150x50/000000/FFFFFF?text=KAVEEN&font=inter'}
+            />
+            <img 
+              src="logo11.png" 
+              alt="Kaveen Nimsara Logo Dark" 
+              className={`h-10 w-auto object-contain ${theme === 'dark' ? 'block' : 'hidden'}`}
+              onError={(e) => e.currentTarget.src = 'https://placehold.co/150x50/FFFFFF/000000?text=KAVEEN&font=inter'}
+            />
             <div className="hidden sm:block">
-              <span className="text-xl font-bold text-black dark:text-white">
+              <span className="text-xl font-bold text-gray-900 dark:text-white">
                 Kaveen Nimsara
               </span>
             </div>
           </div>
           
-          {/* Desktop Navigation */}
+          {/* UPDATED: Desktop Navigation (Cleaner active state) */}
           <div className="hidden lg:flex items-center space-x-8">
             {navigation.map((item) => (
               <button
                 key={item.name}
                 onClick={() => handleNavClick(item)}
-                className={`relative px-1 py-2 text-base font-medium transition-all duration-300 ${
+                className={`relative px-1 py-2 text-base transition-all duration-300 ${
                   isActive(item)
-                    ? 'text-black dark:text-white'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white'
+                    ? 'font-semibold text-indigo-600 dark:text-indigo-400'
+                    : 'font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >
                 {item.name}
+                {/* Optional: A more subtle active indicator */}
                 {isActive(item) && (
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black dark:bg-white rounded-full"></span>
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>
                 )}
               </button>
             ))}
           </div>
 
-          {/* Desktop Theme Toggle */}
+          {/* UPDATED: Desktop Theme Toggle (Consistent rounded-lg) */}
           <div className="hidden lg:flex items-center">
             <button
               onClick={toggleTheme}
-              className="p-3 rounded-full bg-gray-100 dark:bg-gray-900 text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
+              className="p-2.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
             </button>
           </div>
 
-          {/* Mobile Controls */}
+          {/* UPDATED: Mobile Controls (Consistent rounded-lg) */}
           <div className="flex lg:hidden items-center space-x-2">
-            {/* Theme Toggle - Mobile */}
             <button
               onClick={toggleTheme}
-              className="p-3 rounded-full bg-gray-100 dark:bg-gray-900 text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
+              className="p-2.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
             </button>
             
-            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-3 rounded-full bg-gray-100 dark:bg-gray-900 text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
+              className="p-2.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
               aria-label="Toggle menu"
             >
               {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -112,7 +159,7 @@ const Header = ({ navigation, scrollToSection, activeSection }) => {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
+      {/* UPDATED: Mobile Navigation Menu */}
       <div
         className={`lg:hidden fixed inset-0 z-50 transition-all duration-300 ease-in-out ${
           isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
@@ -120,53 +167,55 @@ const Header = ({ navigation, scrollToSection, activeSection }) => {
       >
         {/* Overlay */}
         <div
-          className={`absolute inset-0 bg-black/30 transition-opacity duration-300 ${
+          className={`absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-300 ${
             isMenuOpen ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={() => setIsMenuOpen(false)}
         />
         
-        {/* Slide-out Menu - Solid White/Dark Background */}
+        {/* Slide-out Menu (Using new dark color) */}
         <div
-          className={`absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-white dark:bg-gray-900 shadow-2xl border-l border-gray-200 dark:border-gray-800 transform transition-transform duration-300 ease-in-out ${
+          className={`absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-white dark:bg-gray-950 shadow-2xl border-l border-gray-200 dark:border-gray-800 transform transition-transform duration-300 ease-in-out ${
             isMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
           <div className="flex flex-col h-full">
-            {/* Menu Header with Close Button */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+            {/* Menu Header (Logo update, close button fix) */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-black dark:bg-white rounded-lg flex items-center justify-center font-bold text-white dark:text-black text-lg">
-                  KN
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-lg font-bold text-black dark:text-white">
-                    Kaveen Nimsara
-                  </span>
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
-                    Full Stack Developer
-                  </span>
-                </div>
+                {/* UPDATED: Mobile Menu Logo */}
+                <img 
+                  src="https://placehold.co/150x50/000000/FFFFFF?text=KAVEEN&font=inter" 
+                  alt="Kaveen Nimsara Logo Light" 
+                  className={`h-10 w-auto object-contain ${theme === 'dark' ? 'hidden' : 'block'}`}
+                  onError={(e) => e.currentTarget.src = 'https://placehold.co/150x50/000000/FFFFFF?text=KAVEEN&font=inter'}
+                />
+                <img 
+                  src="https://placehold.co/150x50/FFFFFF/000000?text=KAVEEN&font=inter" 
+                  alt="Kaveen Nimsara Logo Dark" 
+                  className={`h-10 w-auto object-contain ${theme === 'dark' ? 'block' : 'hidden'}`}
+                  onError={(e) => e.currentTarget.src = 'https://placehold.co/150x50/FFFFFF/000000?text=KAVEEN&font=inter'}
+                />
               </div>
               <button
                 onClick={() => setIsMenuOpen(false)}
-                className="p-2 rounded-full hover:bg-gray-800 dark:hover:bg-gray-800 transition-colors"
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 aria-label="Close menu"
               >
-                <X size={24} className="text-black dark:text-white" />
+                <X size={24} className="text-gray-800 dark:text-gray-200" />
               </button>
             </div>
 
-            {/* Navigation Items */}
+            {/* UPDATED: Navigation Items (Softer active state) */}
             <div className="flex-1 px-4 py-8 space-y-2">
               {navigation.map((item) => (
                 <button
                   key={item.name}
                   onClick={() => handleNavClick(item)}
-                  className={`w-full text-left px-6 py-4 text-lg font-medium rounded-lg transition-all duration-200 ${
+                  className={`w-full text-left px-6 py-4 text-lg rounded-lg transition-all duration-200 ${
                     isActive(item)
-                      ? 'bg-black dark:bg-white text-white dark:text-black shadow-md'
-                      : 'text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
+                      ? 'bg-indigo-50 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 font-semibold'
+                      : 'text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium'
                   }`}
                 >
                   {item.name}
@@ -175,14 +224,14 @@ const Header = ({ navigation, scrollToSection, activeSection }) => {
             </div>
 
             {/* Mobile Theme Toggle in Menu */}
-            <div className="p-6 border-t border-gray-200 dark:bg-gray-900 bg-white dark:border-gray-800">
+            <div className="p-6 border-t border-gray-200 dark:border-gray-800">
               <div className="flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                <span className="text-base font-medium text-black dark:text-white">
+                <span className="text-base font-medium text-gray-800 dark:text-gray-200">
                   {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
                 </span>
                 <button
                   onClick={toggleTheme}
-                  className="p-3 rounded-full bg-white dark:bg-gray-700 text-black dark:text-white shadow hover:scale-105 transition-all duration-200"
+                  className="p-3 rounded-full bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 shadow hover:scale-105 transition-all duration-200"
                   aria-label="Toggle theme"
                 >
                   {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}

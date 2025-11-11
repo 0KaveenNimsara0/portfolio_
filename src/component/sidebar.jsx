@@ -8,7 +8,8 @@ const Sidebar = () => {
         href="https://github.com/0KaveenNimsara0"
         target="_blank"
         rel="noopener noreferrer"
-        className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-[#2B2B2B] hover:text-white dark:hover:bg-white dark:hover:text-[#2B2B2B] transition-colors duration-300"
+        // UPDATED: ClassName to match modern UI (indigo hover, scale transform)
+        className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 transition-all duration-300 transform hover:scale-110"
         aria-label="GitHub"
       >
         <Github size={24} />
@@ -17,14 +18,18 @@ const Sidebar = () => {
         href="http://linkedin.com/in/kaveen-nimsara-5a343b2b8"
         target="_blank"
         rel="noopener noreferrer"
-        className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-[#2B2B2B] hover:text-white dark:hover:bg-white dark:hover:text-[#2B2B2B] transition-colors duration-300"
+        // UPDATED: ClassName to match modern UI (indigo hover, scale transform)
+        className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 transition-all duration-300 transform hover:scale-110"
         aria-label="LinkedIn"
       >
         <Linkedin size={24} />
       </a>
       <a
         href="mailto:kaveennimsara12@gmail.com"
-        className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-[#2B2B2B] hover:text-white dark:hover:bg-white dark:hover:text-[#2B2B2B] transition-colors duration-300"
+        target="_blank"
+        rel="noopener noreferrer"
+        // UPDATED: ClassName to match modern UI (indigo hover, scale transform)
+        className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 transition-all duration-300 transform hover:scale-110"
         aria-label="Email"
       >
         <Mail size={24} />

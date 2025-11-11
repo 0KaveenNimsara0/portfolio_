@@ -62,16 +62,13 @@ const Contact = () => {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    // --- IMPORTANT ---
-    // Replace with your actual EmailJS credentials
-    // You can get these from your EmailJS account dashboard.
-    const serviceId = 'YOUR_SERVICE_ID';
-    const templateId = 'YOUR_TEMPLATE_ID';
-    const publicKey = 'YOUR_PUBLIC_KEY';
-    // --- END IMPORTANT ---
+    // Load EmailJS credentials from environment variables
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-    if (serviceId === 'YOUR_SERVICE_ID' || templateId === 'YOUR_TEMPLATE_ID' || publicKey === 'YOUR_PUBLIC_KEY') {
-      console.error('EmailJS credentials are not set. Please update the component with your values.');
+    if (!serviceId || !templateId || !publicKey) {
+      console.error('EmailJS credentials are not set in environment variables.');
       setSubmitStatus('error');
       setIsSubmitting(false);
       return;

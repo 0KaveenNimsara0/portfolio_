@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import { ThemeContext } from '../context/ThemeContext';
-import logoLight from '../images/logo113.png';
-import logoDark from '../images/logo112.png';
+import logoLight from '../images/logo19.png';
+import logoDark from '../images/logo19.png';
 
 const Footer = () => {
   const { theme } = useContext(ThemeContext);

@@ -73,7 +73,7 @@ const Header = ({ navigation, scrollToSection, activeSection }) => {
           >
             {/* UPDATED: Swapped div for img tag with light/dark mode support */}
             <img
-              src={theme === 'dark' ? 'logo112.png' : 'logo113.png'}
+              src={theme === 'dark' ? 'logo19.png' : 'logo19.png'}
               alt="Kaveen Nimsara Logo"
               className="h-10 w-auto object-contain"
               onError={(e) => e.currentTarget.src = 'https://placehold.co/150x50/000000/FFFFFF?text=KAVEEN&font=inter'}
@@ -164,7 +164,7 @@ const Header = ({ navigation, scrollToSection, activeSection }) => {
               <div className="flex items-center gap-3">
                 {/* UPDATED: Mobile Menu Logo */}
                 <img
-                  src={theme === 'dark' ? 'logo112.png' : 'logo113.png'}
+                  src={theme === 'dark' ? 'logo19.png' : 'logo19.png'}
                   alt="Kaveen Nimsara Logo"
                   className="h-10 w-auto object-contain"
                   onError={(e) => e.currentTarget.src = 'https://placehold.co/150x50/000000/FFFFFF?text=KAVEEN&font=inter'}

@@ -75,7 +75,7 @@ const Header = ({ navigation, scrollToSection, activeSection }) => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 bg-white/80  dark:bg-gray-950/80 shadow-sm border-b border-gray-200/80 dark:border-gray-800/80`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* UPDATED: Logo with accent color */}
@@ -172,7 +172,7 @@ const Header = ({ navigation, scrollToSection, activeSection }) => {
         
         {/* Slide-out Menu (Using new dark color) */}
         <div
-          className={`absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-white dark:bg-gray-950 shadow-2xl border-l border-gray-200 dark:border-gray-800 transform transition-transform duration-300 ease-in-out ${
+          className={`absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-white/80 dark:bg-gray-950/90 shadow-2xl border-l border-gray-200/80 dark:border-gray-800/80 transform transition-transform duration-300 ease-in-out ${
             isMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
@@ -211,8 +211,8 @@ const Header = ({ navigation, scrollToSection, activeSection }) => {
                   onClick={() => handleNavClick(item)}
                   className={`w-full text-left px-6 py-4 text-lg rounded-lg transition-all duration-200 ${
                     isActive(item)
-                      ? 'bg-indigo-50 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 font-semibold'
-                      : 'text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium'
+                      ? 'bg-indigo-50 dark:bg-gray-900/70 text-indigo-600 dark:text-indigo-400/90 font-semibold'
+                      : 'text-gray-800/90 dark:text-gray-200/90 hover:bg-gray-100 dark:hover:bg-gray-800/90 font-medium'
                   }`}
                 >
                   {item.name}
@@ -222,7 +222,7 @@ const Header = ({ navigation, scrollToSection, activeSection }) => {
 
             {/* Mobile Theme Toggle in Menu */}
             <div className="p-6 border-t border-gray-200 dark:border-gray-800">
-              <div className="flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+              <div className="flex items-center justify-between p-4 bg-gray-100/90 dark:bg-gray-900/70 rounded-lg">
                 <span className="text-base font-medium text-gray-800 dark:text-gray-200">
                   {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
                 </span>

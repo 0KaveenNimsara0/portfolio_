@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { 
-  ChevronDown, 
-  Mail, 
-  Github, 
-  Linkedin, 
+import { useNavigate } from 'react-router-dom';
+import {
+  ChevronDown,
+  Mail,
+  Github,
+  Linkedin,
   Code,
   Palette,
   Server,
@@ -13,6 +14,8 @@ import {
 } from 'lucide-react';
 
 const Portfolio = () => {
+  const navigate = useNavigate();
+
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -150,11 +153,11 @@ const Portfolio = () => {
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start items-center mb-12" data-animate>
-                  <button 
-                    onClick={() => scrollToSection('skills')}
+                  <button
+                    onClick={() => navigate('/projects')}
                     className="group bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-xl font-medium shadow-lg hover:shadow-indigo-600/50 transform hover:scale-105 transition-all duration-300 flex items-center gap-2 w-full sm:w-auto justify-center"
                   >
-                    Explore My Work 
+                    Explore My Work
                     <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                   </button>
                   <a 

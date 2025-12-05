@@ -207,7 +207,7 @@ const Portfolio = () => {
                   {/* Image Container */}
                   <div className="absolute inset-2 bg-white dark:bg-gray-950 rounded-full overflow-hidden">
                     <img
-                      src="src\images\33.png"
+                      src="images\main_image.png"
                       alt="Kaveen Nimsara"
                       className="w-full h-full object-cover object-top transform hover:scale-110 transition-transform duration-700"
                       onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/600x600/4f46e5/FFFFFF?text=KN'; }}
